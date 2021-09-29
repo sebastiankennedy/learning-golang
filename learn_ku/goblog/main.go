@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
+	"strings"
 )
 
 // 使用中间件
@@ -50,6 +51,16 @@ func articlesStoreHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "创建新的文章")
 }
 
+func removeTrailingSlash(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+		if request.URL.Path != "/" {
+			request.URL.Path = strings.TrimSuffix(request.URL.Path, "/")
+		}
+
+		next.ServeHTTP(writer, request)
+	})
+}
+
 func main() {
 	router := mux.NewRouter()
 	// 用以指定处理 HTTP 请求的函数，/ 意味着任意路径
@@ -77,5 +88,5 @@ func main() {
 	// 注册中间件
 	router.Use(forceHTMLMiddleware)
 
-	http.ListenAndServe(":3000", router)
+	http.ListenAndServe(":3000", removeTrailingSlash(router))
 }
