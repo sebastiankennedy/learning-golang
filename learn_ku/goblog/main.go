@@ -10,6 +10,8 @@ import (
 	"strings"
 )
 
+var router = mux.NewRouter()
+
 // 使用中间件
 func forceHTMLMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -61,8 +63,27 @@ func removeTrailingSlash(next http.Handler) http.Handler {
 	})
 }
 
+func articlesCreateHandler(w http.ResponseWriter, r *http.Request) {
+	html := `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>创建文章 —— 我的技术博客</title>
+</head>
+<body>
+    <form action="%s" method="post">
+        <p><input type="text" name="title"></p>
+        <p><textarea name="body" cols="30" rows="10"></textarea></p>
+        <p><button type="submit">提交</button></p>
+    </form>
+</body>
+</html>
+`
+	storeURL, _ := router.Get("articles.store").URL()
+	fmt.Fprintf(w, html, storeURL)
+}
+
 func main() {
-	router := mux.NewRouter()
 	// 用以指定处理 HTTP 请求的函数，/ 意味着任意路径
 	router.HandleFunc("/", homeHandler).Methods("GET").Name("home")
 
@@ -75,6 +96,7 @@ func main() {
 	// 指定不同的 HTTP 方法、路由名称
 	router.HandleFunc("/articles", articlesIndexHandler).Methods("GET").Name("articles.index")
 	router.HandleFunc("/articles", articlesStoreHandler).Methods("POST").Name("articles.store")
+	router.HandleFunc("/articles/create", articlesCreateHandler).Methods("GET").Name("articles.create")
 
 	// 自定义 404 页面
 	router.NotFoundHandler = http.HandlerFunc(notFoundHandler)
