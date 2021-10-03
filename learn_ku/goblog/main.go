@@ -5,6 +5,8 @@ package main
 // import 关键词引入 Go Package
 import (
 	"fmt"
+	// 匿名导入
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 	"net/http"
 	"net/url"
