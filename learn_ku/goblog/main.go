@@ -4,7 +4,9 @@ package main
 
 // import 关键词引入 Go Package
 import (
+	"database/sql"
 	"fmt"
+	"github.com/go-sql-driver/mysql"
 	// 匿名导入
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
@@ -16,6 +18,19 @@ import (
 )
 
 var router = mux.NewRouter()
+var db *sql.DB
+
+func initDB() {
+	var err error
+	config := mysql.Config{
+		User:                 "root",
+		Passwd:               "123456",
+		Addr:                 "127.0.0.1:33060",
+		Net:                  "tcp",
+		DBName:               "goblog",
+		AllowNativePasswords: true,
+	}
+}
 
 // 使用中间件
 func forceHTMLMiddleware(next http.Handler) http.Handler {
