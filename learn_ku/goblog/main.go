@@ -49,6 +49,17 @@ func initDB() {
 	db.SetConnMaxLifetime(5 * time.Minute)
 }
 
+func createTables() {
+	createArticlesSQL := `CREATE TABLE IF NOT EXISTS articles(
+    id bigint(20) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    title varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    body longtext COLLATE utf8mb4_unicode_ci
+); `
+
+	_, err := db.Exec(createArticlesSQL)
+	checkError(err)
+}
+
 func checkError(err error) {
 	if err != nil {
 		log.Fatal(err)
@@ -176,6 +187,9 @@ func articlesCreateHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	initDB()
+	createTables()
+
 	// 用以指定处理 HTTP 请求的函数，/ 意味着任意路径
 	router.HandleFunc("/", homeHandler).Methods("GET").Name("home")
 
