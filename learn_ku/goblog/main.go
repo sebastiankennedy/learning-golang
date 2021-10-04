@@ -7,6 +7,9 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/go-sql-driver/mysql"
+	"log"
+	"time"
+
 	// 匿名导入
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
@@ -29,6 +32,26 @@ func initDB() {
 		Net:                  "tcp",
 		DBName:               "goblog",
 		AllowNativePasswords: true,
+	}
+
+	// 准备数据库连接池
+	// DSN：data source name，表示数据源信息
+	db, err = sql.Open("mysql", config.FormatDSN())
+	checkError(err)
+
+	// 设置最大连接数
+	db.SetMaxOpenConns(100)
+
+	// 设置最大空闲连接数
+	db.SetMaxIdleConns(25)
+
+	// 设置每个链接的过期时间
+	db.SetConnMaxLifetime(5 * time.Minute)
+}
+
+func checkError(err error) {
+	if err != nil {
+		log.Fatal(err)
 	}
 }
 
