@@ -6,7 +6,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"goblog/app/bootstrap"
+	"goblog/bootstrap"
 	"goblog/pkg/database"
 	"goblog/pkg/logger"
 	"strconv"
@@ -398,6 +398,7 @@ func getRouteVariable(parameterName string, r *http.Request) string {
 func main() {
 	database.Initialize()
 	db = database.DB
+	bootstrap.SetupDB()
 
 	router = bootstrap.SetupRoute()
 
