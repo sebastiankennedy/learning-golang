@@ -423,15 +423,9 @@ func articlesDeleteHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	database.Initialize()
 	db = database.DB
-	
+
 	route.Initialize()
 	router = route.Router
-
-	// 用以指定处理 HTTP 请求的函数，/ 意味着任意路径
-	router.HandleFunc("/", homeHandler).Methods("GET").Name("home")
-
-	// 精确匹配
-	router.HandleFunc("/about", aboutHandler).Methods("GET").Name("about")
 
 	// 正则匹配
 	router.HandleFunc("/articles/{id:[0-9]+}", articlesShowHandler).Methods("GET").Name("articles.show")
@@ -440,9 +434,6 @@ func main() {
 	router.HandleFunc("/articles", articlesIndexHandler).Methods("GET").Name("articles.index")
 	router.HandleFunc("/articles", articlesStoreHandler).Methods("POST").Name("articles.store")
 	router.HandleFunc("/articles/create", articlesCreateHandler).Methods("GET").Name("articles.create")
-
-	// 自定义 404 页面
-	router.NotFoundHandler = http.HandlerFunc(notFoundHandler)
 
 	router.HandleFunc("/articles/create", articlesCreateHandler).Methods("GET").Name("articles.create")
 	router.HandleFunc("/articles/{id:[0-9]+}/edit", articlesEditHandler).Methods("GET").Name("articles.edit")
