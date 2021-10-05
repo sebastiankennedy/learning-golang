@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"goblog/app/http/middlewares"
 	"goblog/bootstrap"
-	"goblog/pkg/database"
+	"goblog/config"
 	"goblog/pkg/logger"
 	"strconv"
 	// 匿名导入
@@ -396,9 +396,13 @@ func getRouteVariable(parameterName string, r *http.Request) string {
 	return vars[parameterName]
 }
 
+func init() {
+	// 初始化配置信息
+	config.Initialize()
+}
+
 func main() {
-	database.Initialize()
-	db = database.DB
+	// 初始化数据库
 	bootstrap.SetupDB()
 
 	// 初始化路由
