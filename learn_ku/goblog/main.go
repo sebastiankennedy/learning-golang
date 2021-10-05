@@ -400,15 +400,8 @@ func main() {
 	db = database.DB
 	bootstrap.SetupDB()
 
+	// 初始化路由
 	router = bootstrap.SetupRoute()
-	router.HandleFunc("/articles/{id:[0-9]+}/delete", articlesDeleteHandler).Methods("POST").Name("articles.delete")
-
-	// 通过命名路由获取 URL 示例
-	homeURL, _ := router.Get("home").URL()
-	fmt.Println("homeURL: ", homeURL)
-	articleURL, _ := router.Get("articles.show").URL("id", "1")
-	fmt.Println("articleURL: ", articleURL)
-
 	// 注册中间件
 	router.Use(forceHTMLMiddleware)
 
