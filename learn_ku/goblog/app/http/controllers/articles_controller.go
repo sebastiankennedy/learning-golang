@@ -47,3 +47,25 @@ func (*ArticlesController) Show(w http.ResponseWriter, r *http.Request) {
 		tmpl.Execute(w, articleModel)
 	}
 }
+
+// Index 文章列表页面
+func (*ArticlesController) Index(w http.ResponseWriter, r *http.Request) {
+	// 1. 获取结果集
+	articles, err := article.GetAll()
+	// 1.1 打印结果集
+	fmt.Println("文章数据", articles)
+
+	if err != nil {
+		// 数据库错误
+		logger.LogError(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprint(w, "500 服务器内部错误")
+	} else {
+		// 加载模板
+		tmpl, err := template.ParseFiles("resources/views/articles/index.gohtml")
+		logger.LogError(err)
+
+		// 渲染模板，将所有文章的数据传输进去
+		tmpl.Execute(w, articles)
+	}
+}

@@ -403,7 +403,6 @@ func main() {
 	router = bootstrap.SetupRoute()
 
 	// 指定不同的 HTTP 方法、路由名称
-	router.HandleFunc("/articles", articlesIndexHandler).Methods("GET").Name("articles.index")
 	router.HandleFunc("/articles", articlesStoreHandler).Methods("POST").Name("articles.store")
 	router.HandleFunc("/articles/create", articlesCreateHandler).Methods("GET").Name("articles.create")
 
