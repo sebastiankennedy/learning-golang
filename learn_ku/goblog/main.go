@@ -6,6 +6,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"goblog/app/http/middlewares"
 	"goblog/bootstrap"
 	"goblog/pkg/database"
 	"goblog/pkg/logger"
@@ -402,8 +403,6 @@ func main() {
 
 	// 初始化路由
 	router = bootstrap.SetupRoute()
-	// 注册中间件
-	router.Use(forceHTMLMiddleware)
 
-	http.ListenAndServe(":3000", removeTrailingSlash(router))
+	http.ListenAndServe(":3000", middlewares.RemoveTrailingSlash(router))
 }
