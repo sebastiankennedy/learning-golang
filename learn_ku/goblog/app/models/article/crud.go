@@ -15,7 +15,7 @@ func Get(idStr string) (Article, error) {
     */
     var article Article
     id := types.StringToInt(idStr)
-    if err := model.DB.First(&article, id).Error; err != nil {
+    if err := model.DB.Preload("User").First(&article, id).Error; err != nil {
         return article, err
     }
 
@@ -25,7 +25,7 @@ func Get(idStr string) (Article, error) {
 func GetAll() ([]Article, error) {
     // 将 map 类型的 Article 对象传参到 Find() 方法内，即可获取到所有文章数据
     var articles []Article
-    if err := model.DB.Find(&articles).Error; err != nil {
+    if err := model.DB.Preload("User").Find(&articles).Error; err != nil {
         return articles, err
     }
 

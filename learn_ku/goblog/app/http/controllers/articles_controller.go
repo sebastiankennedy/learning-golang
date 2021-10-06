@@ -37,7 +37,7 @@ func (*ArticlesController) Show(w http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		// --- 4.读取成功，显示文章 ---
-		view.Render(w, view.D{"Article": articleModel}, "articles.show")
+		view.Render(w, view.D{"Article": articleModel}, "articles.show", "articles._article_meta")
 	}
 }
 
@@ -57,7 +57,7 @@ func (*ArticlesController) Index(w http.ResponseWriter, r *http.Request) {
 		// 2.0 设置模板相对路径
 		view.Render(w, view.D{
 			"Articles": articles,
-		}, "articles.index")
+		}, "articles.index", "articles._article_meta")
 	}
 }
 
