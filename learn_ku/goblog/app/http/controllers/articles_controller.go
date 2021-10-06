@@ -43,20 +43,18 @@ func (ac *ArticlesController) Show(w http.ResponseWriter, r *http.Request) {
 
 // Index 文章列表页面
 func (ac *ArticlesController) Index(w http.ResponseWriter, r *http.Request) {
+
 	// 1. 获取结果集
-	articles, err := article.GetAll()
-	// 1.1 打印结果集
-	fmt.Println("文章数据", articles)
+	articles, pagerData, err := article.GetAll(r, 2)
 
 	if err != nil {
-		// 数据库错误
-		logger.LogError(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprint(w, "500 服务器内部错误")
+		ac.ResponseForSQLError(w, err)
 	} else {
-		// 2.0 设置模板相对路径
+
+		// ---  2. 加载模板 ---
 		view.Render(w, view.D{
-			"Articles": articles,
+			"Articles":  articles,
+			"PagerData": pagerData,
 		}, "articles.index", "articles._article_meta")
 	}
 }
