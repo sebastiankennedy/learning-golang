@@ -29,7 +29,7 @@ func (uc *UserController) Show(w http.ResponseWriter, r *http.Request) {
 		uc.ResponseForSQLError(w, err)
 	} else {
 		// ---  4. 读取成功，显示用户文章列表 ---
-		articles, err := article.GetByUserId(_user.GetStringId())
+		articles, err := article.GetByUserID(_user.GetStringID())
 		if err != nil {
 			logger.LogError(err)
 			w.WriteHeader(http.StatusInternalServerError)

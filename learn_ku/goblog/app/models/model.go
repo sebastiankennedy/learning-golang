@@ -13,6 +13,6 @@ type BaseModel struct {
 	UpdatedAt time.Time `gorm:"column:updated_at;index"`
 }
 
-func (b BaseModel) GetStringId() string {
+func (b BaseModel) GetStringID() string {
 	return types.Uint64ToString(b.ID)
 }

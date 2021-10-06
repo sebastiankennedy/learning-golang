@@ -48,14 +48,14 @@ func Attempt(email string, password string) error {
 	}
 
 	// 4. 登录用户，保存会话
-	session.Put("uid", _user.GetStringId())
+	session.Put("uid", _user.GetStringID())
 
 	return nil
 }
 
 // Login 登录指定用户
 func Login(_user user.User) {
-	session.Put("uid", _user.GetStringId())
+	session.Put("uid", _user.GetStringID())
 }
 
 // Logout 退出用户

@@ -88,7 +88,7 @@ func (ac *ArticlesController) Store(w http.ResponseWriter, r *http.Request) {
 		// 创建文章
 		_article.Create()
 		if _article.ID > 0 {
-			indexURL := route.Name2URL("articles.show", "id", _article.GetStringId())
+			indexURL := route.Name2URL("articles.show", "id", _article.GetStringID())
 			http.Redirect(w, r, indexURL, http.StatusFound)
 		} else {
 			w.WriteHeader(http.StatusInternalServerError)

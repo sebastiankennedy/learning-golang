@@ -14,8 +14,9 @@ type Article struct {
 	Title string
 	Body  string
 
-	UserID uint64 `gorm:"not null;index"`
-	User   user.User
+	UserID     uint64 `gorm:"not null;index"`
+	CategoryID uint64 `gorm:"not null;default:4;index"`
+	User       user.User
 }
 
 // Link 方法用来生成文章链接
