@@ -52,7 +52,7 @@ func (*CategoriesController) Store(w http.ResponseWriter, r *http.Request) {
 }
 
 // Show 显示分类下的文章列表
-func (*CategoriesController) Show(w http.ResponseWriter, r *http.Request) {
+func (cc *CategoriesController) Show(w http.ResponseWriter, r *http.Request) {
     // 1. 获取 URL 参数
     id := route.GetRouteVariable("id", r)
 
